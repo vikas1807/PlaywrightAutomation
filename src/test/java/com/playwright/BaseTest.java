@@ -12,7 +12,7 @@ public class BaseTest {
         try {
             Playwright playwright = Playwright.create();
             {
-                Browser brws = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setArgs(Arrays.asList("--start-maximized")).setSlowMo(3000));
+                Browser brws = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true).setArgs(Arrays.asList("--start-maximized")).setSlowMo(3000));
                 Browser.NewContextOptions contextOptions = new Browser.NewContextOptions()
                         .setViewportSize(1920, 1080);
                 BrowserContext context = brws.newContext(contextOptions);
