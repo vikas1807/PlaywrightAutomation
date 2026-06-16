@@ -1,36 +1,28 @@
 pipeline {
-	agent any
-	environment {
-		mavenHome = tool 'myMaven'
-		//dockerHome = tool 'myDocker'
-		PATH = "$mavenHome/bin:$PATH"
-	}
-	// agent {docker {image 'maven:3.8.4-openjdk-21'}}
-	stages {
-		stage('Checkout'){
-			steps {
-				sh 'mvn --version'
-				//sh 'docker version'
-				echo "Checkout"
-				echo "PATH"
-			}
-		}
-		stage('compile') {
-			steps {
-				sh 'mvn clean compile'
-				echo "Compile"
-			}
-		}
-		stage('Install Browsers') {
-                    steps {
-                        sh 'mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chromium"'
-                    }
-                }
-		stage('Test') {
-			steps {
-				sh 'mvn test'
-				echo "Test"
-			}
-		}
-	}
+    agent any
+
+    environment {
+        mavenHome = tool 'myMaven'
+        PATH = "${mavenHome}/bin:${PATH}"
+    }
+
+    stages {
+        stage('Compile') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Install Browsers') {
+            steps {
+                sh 'mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chromium"'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+    }
 }

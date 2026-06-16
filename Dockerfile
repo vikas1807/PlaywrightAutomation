@@ -1,36 +1,31 @@
-# ==========================================
-# Stage 1: Build and compile the application
-# ==========================================
-FROM maven:3.9.6-eclipse-temurin-21-alpine AS builder
+FROM jenkins/jenkins:lts-jdk21
 
-# Set the inside working directory
-WORKDIR /app
+USER root
 
-# Optimization: Copy only pom.xml to cache dependencies
-COPY pom.xml .
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    libgtk-3-0 \
+    libnss3 \
+    libnspr4 \
+    libdbus-1-3 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libxcb1 \
+    libxkbcommon0 \
+    libatspi2.0-0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libasound2 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libx11-6 \
+    libxcursor1 \
+    libxrender1 \
+    libgdk-pixbuf-2.0-0
 
-# Fetch all dependencies. If pom.xml doesn't change, this layer is cached
-RUN mvn dependency:go-offline -B
-
-# Copy the actual source code
-COPY src ./src
-
-# Pack the application without running tests for faster builds
-RUN mvn clean package -DskipTests
-
-# ==========================================
-# Stage 2: Runtime environment for execution
-# ==========================================
-FROM eclipse-temurin:21-jre-alpine
-
-WORKDIR /app
-
-# Copy the compiled JAR file from the builder stage
-# Note: Adjust 'my-app-1.0.0.jar' to match your actual generated JAR name
-COPY --from=builder /app/target/*.jar app.jar
-
-# Expose the application port (typically 8080 for Spring Boot)
-EXPOSE 8081
-
-# Run the thin JAR application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+USER jenkins
