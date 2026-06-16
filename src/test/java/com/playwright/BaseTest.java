@@ -2,6 +2,7 @@ package com.playwright;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -12,7 +13,7 @@ public class BaseTest {
         try {
             Playwright playwright = Playwright.create();
             {
-                Browser brws = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true).setArgs(Arrays.asList("--start-maximized")).setSlowMo(3000));
+                Browser brws = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setArgs(Arrays.asList("--start-maximized")).setSlowMo(3000));
                 Browser.NewContextOptions contextOptions = new Browser.NewContextOptions()
                         .setViewportSize(1920, 1080);
                 BrowserContext context = brws.newContext(contextOptions);
@@ -28,10 +29,20 @@ public class BaseTest {
 
                 //Page newWindow1 = context.waitForPage(()->{
                     newWindow.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create a Free Trial Account")).click();
+                    String error = newWindow.getByText("An account with this email already exists. ").textContent();
+                    String[] splittext = error.split("\\.");
+                    String errorText = splittext[0]+".";
+                    Assert.assertEquals(errorText.trim(),"An account with this email already exists.");
+                   // System.out.println(error);
                // });
 
                // newWindow1.waitForLoadState();
-                newWindow.locator("#page-v1-fname").fill("vikas");
+                newWindow.locator("#page-v1-fname").fill("testFirst");
+                newWindow.locator("#page-v1-lname").fill("testLast");
+                newWindow.locator("#page-v1-pnumber").clear();
+                newWindow.locator("#page-v1-pnumber").fill("1234567890");
+                newWindow.getByRole(AriaRole.BUTTON,new Page.GetByRoleOptions().setName("Create Account")).click();
+
                 System.out.println(page.title());
                 //newWindow1.close();
                 newWindow.close();
