@@ -30,9 +30,9 @@ public class BaseTest {
                 //Page newWindow1 = context.waitForPage(()->{
                     newWindow.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create a Free Trial Account")).click();
                     String error = newWindow.getByText("An account with this email already exists. ").textContent();
-                    String[] splittext = error.split("\\.");
-                    String errorText = splittext[0]+".";
-                    Assert.assertEquals(errorText.trim(),"An account with this email already exists.");
+                    //String[] splittext = error.split("\\.");
+                    //String errorText = splittext[0]+".";
+                    Assert.assertEquals(error.trim(),"An account with this email already exists.");
                    // System.out.println(error);
                // });
 
