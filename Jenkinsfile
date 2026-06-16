@@ -21,6 +21,11 @@ pipeline {
 				echo "Compile"
 			}
 		}
+		stage('Install Browsers') {
+                    steps {
+                        sh 'mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chromium"'
+                    }
+                }
 		stage('Test') {
 			steps {
 				sh 'mvn test'
