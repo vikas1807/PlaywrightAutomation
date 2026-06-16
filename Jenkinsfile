@@ -1,10 +1,5 @@
 pipeline {
-	//agent any
-	agent {
-            docker {
-                image 'mcr.microsoft.com/playwright/java:v1.54.0-jammy'
-            }
-        }
+	agent any
 	environment {
 		mavenHome = tool 'myMaven'
 		//dockerHome = tool 'myDocker'
