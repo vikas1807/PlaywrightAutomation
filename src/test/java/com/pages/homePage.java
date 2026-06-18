@@ -43,4 +43,17 @@ public class homePage {
         String text = window.getByText(loadActTxt).textContent();
         Assert.assertEquals(text.trim(),"Set Up Your Account");
     }
+    public void validateEmailAlreadExist(String email2)
+    {
+        Page window = PlaywrightFactory.getContext().waitForPage(()->{
+            page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName(trialBtn)).click();
+        });
+        window.waitForLoadState();
+        window.locator(email).fill(email2);
+        window.locator(checkBox).check();
+        window.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName(createactBtn)).click();
+        String error = window.getByText("An account with this email already exists. ").textContent();
+        String[] splitTxt = error.split("\\.");
+        Assert.assertEquals(splitTxt[0]+".","An account with this email already exists.");
+    }
 }
