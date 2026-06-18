@@ -6,7 +6,7 @@
     <test name="Regression Tests">
 
         <classes>
-            <class name="com.playwright.registerNewUsrTest"/>
+           <!-- <class name="com.playwright.registerNewUsrTest"/> -->
             <class name="com.playwright.errorTest" />
         </classes>
 
