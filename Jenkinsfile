@@ -25,4 +25,26 @@ pipeline {
             }
         }
     }
+    post {
+        always{
+            echo 'Execution Completed'
+        }
+        success {
+            echo 'Build Passed Successfully.'
+        }
+        failure {
+            echo 'Build Failed.'
+        }
+        unstable {
+            echo 'Build is Unstable.'
+        }
+
+        aborted {
+            echo 'Build Aborted.'
+        }
+
+        cleanup {
+            cleanWs()
+        }
+    }
 }
