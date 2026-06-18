@@ -17,7 +17,7 @@ public class Basesetup {
         playwright = Playwright.create();
         Browser browser = playwright.chromium()
                 .launch(new BrowserType.LaunchOptions()
-                        .setHeadless(false));
+                        .setHeadless(true));
 
         BrowserContext context = browser.newContext();
 
