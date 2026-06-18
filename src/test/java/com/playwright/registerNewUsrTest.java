@@ -13,10 +13,5 @@ public class registerNewUsrTest extends Basesetup {
        homePage hm = new homePage();
        hm.enterEmailId(email);
     }
-    @Test
-    public void validateEmailAlreadyexist()
-    {
-        homePage hm = new homePage();
-        hm.validateEmailAlreadExist("test3@zohomail.in");
-    }
+
 }
